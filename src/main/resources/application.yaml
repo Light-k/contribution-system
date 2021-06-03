@@ -1,0 +1,32 @@
+#配置服务信息
+server:
+  port: 8082
+  servlet:
+    context-path: /system
+
+
+spring:
+  application:
+    name: contributionSystem
+  #配置数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/contribution_system?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    hikari:
+      maximum-pool-size: 10
+
+#配置mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.light.contributionSystem.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#配置分页信息
+pagehelper:
+  reasonable: true
+  offset-as-page-num: true
+  page-size-zero: true
+  helper-dialect: mysql
