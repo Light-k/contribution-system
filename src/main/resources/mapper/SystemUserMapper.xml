@@ -13,9 +13,9 @@
                 #{userPwd},
                 #{userRole});
     </insert>
+
     <!--根据登录名查询用户-->
-    <select id="selectSystemUserByUserName" parameterType="string"
-            resultType="com.light.contributionSystem.common.output.SystemUserRes">
+    <select id="selectSystemUserByUserName" parameterType="string" resultType="systemUser">
         select uuid      uuid,
                user_name userName,
                user_pwd  userPwd,

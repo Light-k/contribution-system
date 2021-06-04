@@ -45,9 +45,13 @@ public class Article {
     public static final String STATUS_PASSED = "Passed";
     public static final String STATUS_FAILED = "Failed";
     /**
+     * @description 审核理由
+     **/
+    private String reason;
+    /**
      * @description 删除标记
      * 未删除---0
      * 已删除---1
      **/
-    private String del;
+    private Integer del;
 }

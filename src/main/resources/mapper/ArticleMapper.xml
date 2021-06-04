@@ -2,5 +2,113 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.light.contributionSystem.dao.ArticleDao">
+    <!--添加文稿-->
+    <insert id="insertArticle" parameterType="article">
+        insert into article (uuid,
+                             user_id,
+                             title,
+                             content,
+                             audit_status,
+                             reason,
+                             del)
+        values (#{uuid},
+                #{userId},
+                #{title},
+                #{content},
+                "ToBeReviewed",
+                "",
+                0);
+    </insert>
 
+    <!--删除文稿/审核文稿-->
+    <update id="updateArticle" parameterType="article">
+        update article
+        set content      = #{content}
+          , audit_status = #{auditStatus}
+          , reason       = #{reason}
+          , del          = #{del}
+        where uuid = #{uuid};
+    </update>
+
+    <!--查看全部的文稿-->
+    <select id="selectAllArticle" resultType="com.light.contributionSystem.common.output.ArticleRes">
+        select uuid         uuid,
+               user_id      userId,
+               title        title,
+               content      content,
+               audit_status auditStatus,
+               reason       reason,
+               del          del
+        from article
+    </select>
+
+    <!--根据用户登录名查询文稿-->
+    <select id="selectArticlesByUserName" parameterType="string"
+            resultType="com.light.contributionSystem.common.output.ArticleRes">
+        select uuid         uuid,
+               user_id      userId,
+               title        title,
+               content      content,
+               audit_status auditStatus,
+               reason       reason,
+               del          del
+        from article a
+                 left join system_user su
+                           on a.user_id = su.uuid
+        where su.user_name like '%'#{userName}'%'
+    </select>
+
+    <!--根据用户id查询对应的文稿-->
+    <select id="selectArticleByUserId" parameterType="string" resultType="article">
+        select uuid         uuid,
+               user_id      userId,
+               title        title,
+               content      content,
+               audit_status auditStatus,
+               reason       reason,
+               del          del
+        from article
+        where user_id = #{userId}
+    </select>
+
+    <!--根据文稿id查看文稿详情-->
+    <select id="selectArticleByUuid" parameterType="string" resultType="article">
+        select uuid         uuid,
+               user_id      userId,
+               title        title,
+               content      content,
+               audit_status auditStatus,
+               reason       reason,
+               del          del
+        from article
+        where uuid = #{uuid}
+    </select>
+
+    <!--根据用户id查询对应的文稿-->
+    <select id="selectArticleBySystemUser" parameterType="string"
+            resultType="com.light.contributionSystem.common.output.ArticleRes">
+        select uuid         uuid,
+               user_id      userId,
+               title        title,
+               content      content,
+               audit_status auditStatus,
+               reason       reason,
+               del          del
+        from article
+        where user_id = #{userId}
+    </select>
+
+    <!--根据文稿id查看文稿详情-->
+    <select id="selectArticleByAdmin" parameterType="string"
+            resultType="com.light.contributionSystem.common.output.ArticleRes">
+        select uuid         uuid,
+               user_id      userId,
+               title        title,
+               content      content,
+               audit_status auditStatus,
+               reason       reason,
+               del          del
+        from article
+        where uuid = #{uuid}
+    </select>
 </mapper>

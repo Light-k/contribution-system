@@ -1,7 +1,7 @@
 package com.light.contributionSystem.service;
 
 import com.light.contributionSystem.common.BaseResponse;
-import com.light.contributionSystem.common.input.RegisterOrLoginParams;
+import com.light.contributionSystem.common.input.RegisterParams;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,10 +15,10 @@ public interface SystemUserService {
     /**
      * @description 注册用户
      **/
-    BaseResponse registerSystemUser(RegisterOrLoginParams registerOrLoginParams);
+    BaseResponse registerSystemUser(RegisterParams registerParams);
 
     /**
      * @description 登录
      **/
-    BaseResponse login(RegisterOrLoginParams registerOrLoginParams);
+    BaseResponse login(String userName, String userPwd, String userRole);
 }

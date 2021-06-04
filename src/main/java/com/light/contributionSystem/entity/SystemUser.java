@@ -1,6 +1,8 @@
 package com.light.contributionSystem.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.apache.ibatis.type.Alias;
 
@@ -11,6 +13,8 @@ import org.apache.ibatis.type.Alias;
  * @data 2021/6/3 21:30
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
 @Alias("systemUser")
 public class SystemUser {

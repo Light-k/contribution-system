@@ -1,6 +1,5 @@
 package com.light.contributionSystem.dao;
 
-import com.light.contributionSystem.common.output.SystemUserRes;
 import com.light.contributionSystem.entity.SystemUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -22,5 +21,5 @@ public interface SystemUserDao {
     /**
      * @description 根据登录名查询用户
      **/
-    SystemUserRes selectSystemUserByUserName(String userName);
+    SystemUser selectSystemUserByUserName(String userName);
 }

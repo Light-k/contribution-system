@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  * @data 2021/6/3 22:40
  */
 @Data
-public class RegisterOrLoginParams {
+public class RegisterParams {
     /**
      * @description 登录名
      **/

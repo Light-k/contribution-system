@@ -1,7 +1,12 @@
 package com.light.contributionSystem.dao;
 
+import com.light.contributionSystem.common.output.ArticleRes;
+import com.light.contributionSystem.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author KangXu
@@ -12,4 +17,43 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface ArticleDao {
+    /**
+     * @description 添加文稿
+     **/
+    void insertArticle(Article article);
+
+    /**
+     * @description 删除文稿/审核文稿
+     **/
+    void updateArticle(Article article);
+
+    /**
+     * @description 查看全部的文稿
+     **/
+    List<ArticleRes> selectAllArticle();
+
+    /**
+     * @description 根据用户登录名查询文稿
+     **/
+    List<ArticleRes> selectArticlesByUserName(@Param("userName") String userName);
+
+    /**
+     * @description 根据用户id查询对应的文稿
+     **/
+    Article selectArticleByUserId(@Param("userId") String userId);
+
+    /**
+     * @description 根据文稿id查看文稿详情
+     **/
+    Article selectArticleByUuid(@Param("uuid") String uuid);
+
+    /**
+     * @description 用户查看文稿
+     **/
+    ArticleRes selectArticleBySystemUser(@Param("userId") String userId);
+
+    /**
+     * @description 管理员查看文稿
+     **/
+    ArticleRes selectArticleByAdmin(@Param("uuid") String uuid);
 }

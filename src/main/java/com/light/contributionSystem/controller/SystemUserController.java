@@ -1,14 +1,12 @@
 package com.light.contributionSystem.controller;
 
 import com.light.contributionSystem.common.BaseResponse;
-import com.light.contributionSystem.common.input.RegisterOrLoginParams;
-import com.light.contributionSystem.entity.SystemUser;
+import com.light.contributionSystem.common.input.RegisterParams;
 import com.light.contributionSystem.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author KangXu
@@ -26,15 +24,17 @@ public class SystemUserController {
      * @description 注册用户
      **/
     @PostMapping
-    public BaseResponse registerSystemUser(RegisterOrLoginParams registerOrLoginParams) {
-        return systemUserService.registerSystemUser(registerOrLoginParams);
+    public BaseResponse registerSystemUser(@RequestBody @Valid RegisterParams registerParams) {
+        return systemUserService.registerSystemUser(registerParams);
     }
 
     /**
-     * @description  登录
+     * @description 登录
      **/
-    @GetMapping
-    public BaseResponse login(RegisterOrLoginParams registerOrLoginParams) {
-        return systemUserService.login(registerOrLoginParams);
+    @GetMapping("/{userName}/{userPwd}/{userRole}")
+    public BaseResponse login(@PathVariable("userName") String userName,
+                              @PathVariable("userPwd") String userPwd,
+                              @PathVariable("userRole") String userRole) {
+        return systemUserService.login(userName, userPwd, userRole);
     }
 }
