@@ -30,18 +30,10 @@ public class ArticleController {
     }
 
     /**
-     * @description 普通用户删除文稿
+     * @description 删除文稿
      **/
-    @DeleteMapping("/user")
-    public BaseResponse delArticleBySystemUser(String userId) {
-        return articleService.delArticleBySystemUser(userId);
-    }
-
-    /**
-     * @description 管理员删除文稿
-     **/
-    @DeleteMapping("/admin")
-    public BaseResponse delArticleByUuid(String uuid) {
+    @DeleteMapping("/{uuid}")
+    public BaseResponse delArticleByUuid(@PathVariable("uuid") String uuid) {
         return articleService.delArticleByUuid(uuid);
     }
 
@@ -55,37 +47,12 @@ public class ArticleController {
     }
 
     /**
-     * @description 查看全部文稿/根据用户登录名查询文稿
-     **/
-    @GetMapping
-    public BaseResponse findAllArticles(@RequestParam(required = false) Integer page,
-                                        @RequestParam(required = false) Integer pageSize,
-                                        @RequestParam(required = false) String userName) {
-        return articleService.findAllArticles(page, pageSize, userName);
-    }
-
-    /**
-     * @description 管理员查看文稿详情
-     **/
-    @GetMapping("/admin/{uuid}")
-    public BaseResponse findArticleByAdmin(@PathVariable("uuid") String uuid) {
-        return articleService.findArticleByAdmin(uuid);
-    }
-
-    /**
-     * @description 用户查看文稿
-     **/
-    @GetMapping("/user/{userId}")
-    public BaseResponse findArticleBySystemUser(@PathVariable("userId") String userId) {
-        return articleService.findArticleBySystemUser(userId);
-    }
-
-    /**
      * @description 用户编辑文稿
      **/
-    @PutMapping
-    public BaseResponse editArticle(String userId, String content) {
-        return articleService.editArticle(userId, content);
+    @PutMapping("/{uuid}/{content}")
+    public BaseResponse editArticle(@PathVariable("uuid") String uuid,
+                                    @PathVariable("content") String content) {
+        return articleService.editArticle(uuid, content);
     }
 
 }

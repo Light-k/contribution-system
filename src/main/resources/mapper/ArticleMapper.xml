@@ -30,45 +30,24 @@
         where uuid = #{uuid};
     </update>
 
-    <!--查看全部的文稿-->
-    <select id="selectAllArticle" resultType="com.light.contributionSystem.common.output.ArticleRes">
-        select uuid         uuid,
-               user_id      userId,
-               title        title,
-               content      content,
-               audit_status auditStatus,
-               reason       reason,
-               del          del
-        from article
-    </select>
-
-    <!--根据用户登录名查询文稿-->
+    <!--查看全部的文稿/根据用户登录名查询文稿-->
     <select id="selectArticlesByUserName" parameterType="string"
             resultType="com.light.contributionSystem.common.output.ArticleRes">
-        select uuid         uuid,
-               user_id      userId,
-               title        title,
-               content      content,
-               audit_status auditStatus,
-               reason       reason,
-               del          del
+        select a.uuid id,
+        a.user_id userId,
+        a.title title,
+        a.content content,
+        a.audit_status auditStatus,
+        a.reason reason,
+        a.del del
         from article a
-                 left join system_user su
-                           on a.user_id = su.uuid
-        where su.user_name like '%'#{userName}'%'
-    </select>
-
-    <!--根据用户id查询对应的文稿-->
-    <select id="selectArticleByUserId" parameterType="string" resultType="article">
-        select uuid         uuid,
-               user_id      userId,
-               title        title,
-               content      content,
-               audit_status auditStatus,
-               reason       reason,
-               del          del
-        from article
-        where user_id = #{userId}
+        left join system_user su
+        on a.user_id = su.uuid
+        where
+        a.del = 0
+        <if test="userName != null and userName != ''">
+            and su.user_name like '%'#{userName}'%'
+        </if>
     </select>
 
     <!--根据文稿id查看文稿详情-->
@@ -82,12 +61,13 @@
                del          del
         from article
         where uuid = #{uuid}
+          and del = 0
     </select>
 
     <!--根据用户id查询对应的文稿-->
     <select id="selectArticleBySystemUser" parameterType="string"
             resultType="com.light.contributionSystem.common.output.ArticleRes">
-        select uuid         uuid,
+        select uuid         id,
                user_id      userId,
                title        title,
                content      content,
@@ -96,19 +76,7 @@
                del          del
         from article
         where user_id = #{userId}
+          and del = 0
     </select>
 
-    <!--根据文稿id查看文稿详情-->
-    <select id="selectArticleByAdmin" parameterType="string"
-            resultType="com.light.contributionSystem.common.output.ArticleRes">
-        select uuid         uuid,
-               user_id      userId,
-               title        title,
-               content      content,
-               audit_status auditStatus,
-               reason       reason,
-               del          del
-        from article
-        where uuid = #{uuid}
-    </select>
 </mapper>

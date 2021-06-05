@@ -28,19 +28,9 @@ public interface ArticleDao {
     void updateArticle(Article article);
 
     /**
-     * @description 查看全部的文稿
-     **/
-    List<ArticleRes> selectAllArticle();
-
-    /**
-     * @description 根据用户登录名查询文稿
+     * @description 查看全部的文稿/根据用户登录名查询文稿
      **/
     List<ArticleRes> selectArticlesByUserName(@Param("userName") String userName);
-
-    /**
-     * @description 根据用户id查询对应的文稿
-     **/
-    Article selectArticleByUserId(@Param("userId") String userId);
 
     /**
      * @description 根据文稿id查看文稿详情
@@ -50,10 +40,6 @@ public interface ArticleDao {
     /**
      * @description 用户查看文稿
      **/
-    ArticleRes selectArticleBySystemUser(@Param("userId") String userId);
+    List<ArticleRes> selectArticleBySystemUser(@Param("userId") String userId);
 
-    /**
-     * @description 管理员查看文稿
-     **/
-    ArticleRes selectArticleByAdmin(@Param("uuid") String uuid);
 }

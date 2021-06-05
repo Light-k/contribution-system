@@ -13,7 +13,7 @@ public class ArticleRes {
     /**
      * @description 主键
      **/
-    private String uuid;
+    private String id;
     /**
      * @description 用户id
      **/
@@ -38,4 +38,8 @@ public class ArticleRes {
      * @description 删除标记
      **/
     private Integer del;
+    /**
+     * @description 文稿作者
+     **/
+    private String author;
 }

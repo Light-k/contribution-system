@@ -24,10 +24,7 @@
         <h1 class="h3 mb-3 font-weight-normal" th:text="请登录"/>
         <p id="msg" style="color: red"/>
         <div class="form-group has-feedback">
-            <input th:if="${#strings.isEmpty(userName)}" type="text" name="userName" class="form-control"
-                   th:placeholder="请输入账号" onblur="move()" required>
-            <input th:if="${not #strings.isEmpty(userName)}" type="text" name="userName" class="form-control"
-                   th:value="${userName}" onblur="move()" required>
+            <input type="text" name="userName" class="form-control" th:placeholder="请输入账号" onblur="move()" required>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
@@ -109,11 +106,14 @@
             dataType: "json",
             success: function (data) {
                 if ("success" === data.status) {
-                    alert("ok");
-                    // window.location.href = "[[@{/toLogin}]]";
-                    // window.sessionStorage.setItem("userName", data.data);
+                    if ("普通用户登录成功" === data.msg) {
+                        window.location.href = "[[@{/frontPage}]]";
+                    } else {
+                        window.location.href = "[[@{/backPage}]]";
+                    }
+                } else {
+                    msg.html(data.msg);
                 }
-                msg.html(data.msg);
             }
         })
     }

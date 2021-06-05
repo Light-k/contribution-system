@@ -23,4 +23,11 @@
         from system_user
         where user_name = #{userName}
     </select>
+
+    <!--根据用户id查询用户名-->
+    <select id="selectSystemUserNameByUserId" parameterType="string" resultType="string">
+        select user_name
+        from system_user
+        where uuid = #{userId}
+    </select>
 </mapper>

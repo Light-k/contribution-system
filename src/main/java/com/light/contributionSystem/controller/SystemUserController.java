@@ -39,12 +39,4 @@ public class SystemUserController {
                               HttpSession session) {
         return systemUserService.login(userName, userPwd, userRole, session);
     }
-
-    /**
-     * @description 退出
-     **/
-    @GetMapping
-    public BaseResponse exit(HttpSession session) {
-        return systemUserService.exit(session);
-    }
 }

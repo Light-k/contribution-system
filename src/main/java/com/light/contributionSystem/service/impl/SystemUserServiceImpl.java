@@ -58,19 +58,14 @@ public class SystemUserServiceImpl implements SystemUserService {
         if (!systemUser.getUserPwd().equals(userPwd)) {
             return BaseResponse.resp(Common.ERROR_RESPONSE_STATUS, "密码错误");
         }
+        if (!systemUser.getUserRole().equals(userRole)) {
+            return BaseResponse.resp(Common.ERROR_RESPONSE_STATUS, "身份错误");
+        }
         session.setAttribute("userName", userName);
+        session.setAttribute("userId", systemUser.getUuid());
         if (SystemUser.ROLE_USER.equals(userRole)) {
             return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS, "普通用户登录成功");
         }
         return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS, "管理员登录成功");
-    }
-
-    /**
-     * @description 退出
-     **/
-    @Override
-    public BaseResponse exit(HttpSession session) {
-        session.removeAttribute("userName");
-        return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS, "已退出");
     }
 }

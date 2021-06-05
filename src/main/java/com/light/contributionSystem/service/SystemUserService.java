@@ -23,9 +23,4 @@ public interface SystemUserService {
      * @description 登录
      **/
     BaseResponse login(String userName, String userPwd, String userRole, HttpSession session);
-
-    /**
-     * @description 退出
-     **/
-    BaseResponse exit(HttpSession session);
 }
