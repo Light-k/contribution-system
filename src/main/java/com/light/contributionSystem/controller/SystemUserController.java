@@ -6,6 +6,7 @@ import com.light.contributionSystem.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -15,7 +16,7 @@ import javax.validation.Valid;
  * @data 2021/6/3 22:32
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/systemUser")
 public class SystemUserController {
     @Autowired
     private SystemUserService systemUserService;
@@ -34,7 +35,16 @@ public class SystemUserController {
     @GetMapping("/{userName}/{userPwd}/{userRole}")
     public BaseResponse login(@PathVariable("userName") String userName,
                               @PathVariable("userPwd") String userPwd,
-                              @PathVariable("userRole") String userRole) {
-        return systemUserService.login(userName, userPwd, userRole);
+                              @PathVariable("userRole") String userRole,
+                              HttpSession session) {
+        return systemUserService.login(userName, userPwd, userRole, session);
+    }
+
+    /**
+     * @description 退出
+     **/
+    @GetMapping
+    public BaseResponse exit(HttpSession session) {
+        return systemUserService.exit(session);
     }
 }

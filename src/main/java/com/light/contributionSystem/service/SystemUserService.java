@@ -4,6 +4,8 @@ import com.light.contributionSystem.common.BaseResponse;
 import com.light.contributionSystem.common.input.RegisterParams;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author KangXu
  * @description 系统用户表的业务层
@@ -20,5 +22,10 @@ public interface SystemUserService {
     /**
      * @description 登录
      **/
-    BaseResponse login(String userName, String userPwd, String userRole);
+    BaseResponse login(String userName, String userPwd, String userRole, HttpSession session);
+
+    /**
+     * @description 退出
+     **/
+    BaseResponse exit(HttpSession session);
 }
