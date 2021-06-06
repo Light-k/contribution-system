@@ -4,7 +4,6 @@ import com.light.contributionSystem.common.BaseResponse;
 import com.light.contributionSystem.common.input.AuditParams;
 import com.light.contributionSystem.common.input.ContributionParams;
 import com.light.contributionSystem.service.ArticleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,8 +17,12 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
-    @Autowired
-    private ArticleService articleService;
+
+    private final ArticleService articleService;
+
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     /**
      * @description 添加文稿

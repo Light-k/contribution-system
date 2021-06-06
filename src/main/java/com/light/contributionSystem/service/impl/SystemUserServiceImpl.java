@@ -7,7 +7,6 @@ import com.light.contributionSystem.dao.SystemUserDao;
 import com.light.contributionSystem.entity.SystemUser;
 import com.light.contributionSystem.service.SystemUserService;
 import com.light.contributionSystem.util.IdUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -21,8 +20,12 @@ import javax.servlet.http.HttpSession;
  */
 @Service
 public class SystemUserServiceImpl implements SystemUserService {
-    @Autowired
-    private SystemUserDao systemUserDao;
+
+    private final SystemUserDao systemUserDao;
+
+    public SystemUserServiceImpl(SystemUserDao systemUserDao) {
+        this.systemUserDao = systemUserDao;
+    }
 
     /**
      * @description 注册用户

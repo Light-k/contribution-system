@@ -1,8 +1,12 @@
 package com.light.contributionSystem.service;
 
+import com.github.pagehelper.PageInfo;
 import com.light.contributionSystem.common.BaseResponse;
 import com.light.contributionSystem.common.input.ContributionParams;
+import com.light.contributionSystem.entity.Article;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author KangXu
@@ -31,5 +35,25 @@ public interface ArticleService {
      * @description 用户编辑文稿
      **/
     BaseResponse editArticle(String uuid, String content);
+
+    /**
+     * @description 我的文稿
+     **/
+    PageInfo myArticle(Integer pageNum, Integer pageSize, HttpSession session);
+
+    /**
+     * @description 文稿市场页面
+     **/
+    PageInfo articleMarket(Integer pageNum, Integer pageSize, String userName);
+
+    /**
+     * @description 查看文稿详情
+     **/
+    Article findArticleDetail(String uuid);
+
+    /**
+     * @description 文稿管理页面
+     **/
+    PageInfo articleManagement(Integer pageNum, Integer pageSize, String userName);
 
 }

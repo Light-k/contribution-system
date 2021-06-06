@@ -1,16 +1,21 @@
 package com.light.contributionSystem.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.light.contributionSystem.common.BaseResponse;
 import com.light.contributionSystem.common.Common;
 import com.light.contributionSystem.common.input.ContributionParams;
 import com.light.contributionSystem.common.output.ArticleRes;
 import com.light.contributionSystem.dao.ArticleDao;
+import com.light.contributionSystem.dao.SystemUserDao;
 import com.light.contributionSystem.entity.Article;
 import com.light.contributionSystem.service.ArticleService;
 import com.light.contributionSystem.util.IdUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
+import org.springframework.util.CollectionUtils;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 /**
@@ -21,8 +26,14 @@ import org.springframework.util.ObjectUtils;
  */
 @Service
 public class ArticleServiceImpl implements ArticleService {
-    @Autowired
-    private ArticleDao articleDao;
+
+    private final ArticleDao articleDao;
+    private final SystemUserDao systemUserDao;
+
+    public ArticleServiceImpl(ArticleDao articleDao, SystemUserDao systemUserDao) {
+        this.articleDao = articleDao;
+        this.systemUserDao = systemUserDao;
+    }
 
     /**
      * @description 投稿
@@ -72,6 +83,55 @@ public class ArticleServiceImpl implements ArticleService {
         article.setContent(content);
         articleDao.updateArticle(article);
         return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS, "编辑成功");
+    }
+
+    /**
+     * @description 我的文稿
+     **/
+    @Override
+    public PageInfo myArticle(Integer pageNum, Integer pageSize, HttpSession session) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticleRes> articleRes = articleDao.
+                selectArticleBySystemUser(session.getAttribute("userId").toString());
+        return new PageInfo(articleRes);
+    }
+
+    /**
+     * @description 文稿市场页面
+     **/
+    @Override
+    public PageInfo articleMarket(Integer pageNum, Integer pageSize, String userName) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticleRes> articleRes = articleDao.selectArticlesByUserName(userName);
+        if (!CollectionUtils.isEmpty(articleRes)) {
+            for (ArticleRes articleRe : articleRes) {
+                articleRe.setAuthor(systemUserDao.selectSystemUserNameByUserId(articleRe.getUserId()));
+            }
+        }
+        return new PageInfo(articleRes);
+    }
+
+    /**
+     * @description 查看文稿详情
+     **/
+    @Override
+    public Article findArticleDetail(String uuid) {
+        return articleDao.selectArticleByUuid(uuid);
+    }
+
+    /**
+     * @description 文稿管理页面
+     **/
+    @Override
+    public PageInfo articleManagement(Integer pageNum, Integer pageSize, String userName) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticleRes> articleRes = articleDao.selectArticlesByUserName(userName);
+        if (!CollectionUtils.isEmpty(articleRes)) {
+            for (ArticleRes articleRe : articleRes) {
+                articleRe.setAuthor(systemUserDao.selectSystemUserNameByUserId(articleRe.getUserId()));
+            }
+        }
+        return new PageInfo(articleRes);
     }
 
 }

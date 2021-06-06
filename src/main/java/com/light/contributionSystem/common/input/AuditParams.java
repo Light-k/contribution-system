@@ -25,5 +25,5 @@ public class AuditParams {
     /**
      * @description 审核理由
      **/
-    private String reason;
+    private String reason = "";
 }

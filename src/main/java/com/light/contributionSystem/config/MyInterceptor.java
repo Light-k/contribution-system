@@ -22,7 +22,6 @@ public class MyInterceptor implements HandlerInterceptor {
         requestUser.add("/systemUser");
         requestUser.add("/toRegister");
         requestUser.add("/toLogin");
-        System.out.println(request.getServletPath());
         if (requestUser.contains(request.getServletPath()) ||
                 null != userName || request.getServletPath().contains("/systemUser")) {
             return true;

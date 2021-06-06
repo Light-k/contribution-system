@@ -3,7 +3,6 @@ package com.light.contributionSystem.controller;
 import com.light.contributionSystem.common.BaseResponse;
 import com.light.contributionSystem.common.input.RegisterParams;
 import com.light.contributionSystem.service.SystemUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -18,8 +17,12 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/systemUser")
 public class SystemUserController {
-    @Autowired
-    private SystemUserService systemUserService;
+
+    private final SystemUserService systemUserService;
+
+    public SystemUserController(SystemUserService systemUserService) {
+        this.systemUserService = systemUserService;
+    }
 
     /**
      * @description 注册用户

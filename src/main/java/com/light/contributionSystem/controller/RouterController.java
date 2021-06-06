@@ -1,22 +1,13 @@
 package com.light.contributionSystem.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.light.contributionSystem.common.BaseResponse;
-import com.light.contributionSystem.common.output.ArticleRes;
-import com.light.contributionSystem.dao.ArticleDao;
-import com.light.contributionSystem.dao.SystemUserDao;
-import com.light.contributionSystem.entity.Article;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.light.contributionSystem.service.ArticleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * @author KangXu
@@ -27,12 +18,10 @@ import java.util.List;
 @Controller
 public class RouterController {
 
-    private final ArticleDao articleDao;
-    private final SystemUserDao systemUserDao;
+    private final ArticleService articleService;
 
-    public RouterController(ArticleDao articleDao, SystemUserDao systemUserDao) {
-        this.articleDao = articleDao;
-        this.systemUserDao = systemUserDao;
+    public RouterController(ArticleService articleService) {
+        this.articleService = articleService;
     }
 
     /**
@@ -85,11 +74,7 @@ public class RouterController {
                             @PathVariable("pageSize") Integer pageSize,
                             HttpSession session,
                             Model model) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<ArticleRes> articleRes = articleDao.
-                selectArticleBySystemUser(session.getAttribute("userId").toString());
-        PageInfo pageInfo = new PageInfo(articleRes);
-        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("pageInfo", articleService.myArticle(pageNum, pageSize, session));
         return "user/myArticle";
     }
 
@@ -101,15 +86,7 @@ public class RouterController {
                                 @PathVariable("pageSize") Integer pageSize,
                                 @RequestParam(required = false) String userName,
                                 Model model) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<ArticleRes> articleRes = articleDao.selectArticlesByUserName(userName);
-        if (!CollectionUtils.isEmpty(articleRes)) {
-            for (ArticleRes articleRe : articleRes) {
-                articleRe.setAuthor(systemUserDao.selectSystemUserNameByUserId(articleRe.getUserId()));
-            }
-        }
-        PageInfo pageInfo = new PageInfo(articleRes);
-        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("pageInfo", articleService.articleMarket(pageNum, pageSize, userName));
         return "user/articleMarket";
     }
 
@@ -126,8 +103,7 @@ public class RouterController {
      **/
     @GetMapping("/frontPage/articleDetail/{uuid}")
     public String frontPageArticleDetail(@PathVariable("uuid") String uuid, Model model) {
-        Article article = articleDao.selectArticleByUuid(uuid);
-        model.addAttribute("article", article);
+        model.addAttribute("article", articleService.findArticleDetail(uuid));
         return "user/articleDetail";
     }
 
@@ -136,8 +112,7 @@ public class RouterController {
      **/
     @GetMapping("/updArticle/{uuid}")
     public String updArticle(@PathVariable("uuid") String uuid, Model model) {
-        Article article = articleDao.selectArticleByUuid(uuid);
-        model.addAttribute("article", article);
+        model.addAttribute("article", articleService.findArticleDetail(uuid));
         return "user/updArticle";
     }
 
@@ -149,15 +124,7 @@ public class RouterController {
                                     @PathVariable("pageSize") Integer pageSize,
                                     @RequestParam(required = false) String userName,
                                     Model model) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<ArticleRes> articleRes = articleDao.selectArticlesByUserName(userName);
-        if (!CollectionUtils.isEmpty(articleRes)) {
-            for (ArticleRes articleRe : articleRes) {
-                articleRe.setAuthor(systemUserDao.selectSystemUserNameByUserId(articleRe.getUserId()));
-            }
-        }
-        PageInfo pageInfo = new PageInfo(articleRes);
-        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("pageInfo", articleService.articleManagement(pageNum, pageSize, userName));
         return "admin/articleList";
     }
 
@@ -166,8 +133,7 @@ public class RouterController {
      **/
     @GetMapping("/backPage/articleDetail/{uuid}")
     public String backPageArticleDetail(@PathVariable("uuid") String uuid, Model model) {
-        Article article = articleDao.selectArticleByUuid(uuid);
-        model.addAttribute("article", article);
+        model.addAttribute("article", articleService.findArticleDetail(uuid));
         return "admin/articleDetail";
     }
 
