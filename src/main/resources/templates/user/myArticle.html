@@ -123,7 +123,6 @@
                             <thead>
                             <tr>
                                 <th class="text-center">文稿的标题</th>
-                                <th class="text-center">文稿的作者</th>
                                 <th class="text-center">文稿的审核状态</th>
                                 <th class="text-center">文稿的审核理由</th>
                                 <th class="text-center">操作</th>
@@ -131,33 +130,22 @@
                             </thead>
                             <tbody>
                             <tr th:each="article:${pageInfo.list}" th:if="${article.getDel()}==0">
-                                <td style="line-height: 138px" th:text="${article.getTitle()}" class="text-center"></td>
-                                <td style="line-height: 138px" th:text="${article.getAuthor()}" class="text-center"></td>
-                                <td style="line-height: 138px"
-                                    th:if="${article.getAuditStatus()}=='ToBeReviewed'"
-                                    class="text-center">待审核
+                                <td th:text="${article.getTitle()}" class="text-center"></td>
+                                <td th:if="${article.getAuditStatus()}=='ToBeReviewed'" class="text-center">待审核
                                 </td>
-                                <td style="line-height: 138px"
-                                    th:if="${article.getAuditStatus()}=='Passed'"
-                                    class="text-center">审核通过
+                                <td th:if="${article.getAuditStatus()}=='Passed'" class="text-center">审核通过
                                 </td>
-                                <td style="line-height: 138px"
-                                    th:if="${article.getAuditStatus()}=='Failed'"
-                                    class="text-center">已驳回
+                                <td th:if="${article.getAuditStatus()}=='Failed'" class="text-center">已驳回
                                 </td>
-                                <td style="line-height: 138px"
-                                    th:text="${article.getReason()}==''?'无':${article.getReason()}"
-                                    class="text-center"></td>
+                                <td th:text="${article.getReason()}==''?'无':${article.getReason()}" class="text-center"></td>
                                 <td th:if="${article.getAuditStatus()}=='ToBeReviewed'or ${article.getAuditStatus()}=='Failed'"
-                                    style="line-height: 138px" class="text-center">
+                                    class="text-center">
                                     <a class="btn btn-sm btn-info"
                                        th:href="@{/updArticle/}+${article.getId()}">编辑文稿</a>
                                     &nbsp;|&nbsp;
                                     <a class="btn btn-sm btn-danger" th:onclick="delArticle([[${article.getId()}]])">删除</a>
                                 </td>
-                                <td th:if="${article.getAuditStatus()}=='Passed'"
-                                    style="line-height: 138px"
-                                    class="text-center">
+                                <td th:if="${article.getAuditStatus()}=='Passed'" class="text-center">
                                     <a class="btn btn-sm btn-default" th:href="@{/frontPage/articleDetail/}+${article.getId()}">查看文稿</a>
                                 </td>
                             </tr>

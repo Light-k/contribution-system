@@ -109,6 +109,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="box-tools pull-right">
+                            <div class="has-feedback">
+                                <input id="userName" type="text" class="form-control input-sm" name="userName"
+                                       placeholder="请根据作者名字搜索">
+                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                            </div>
+                        </div>
                         <div th:if="${pageInfo.total} == 0" th:text="暂无结果" class="pull-right"
                              style="margin-right: 10px;color: red"></div>
                         <!--工具栏/-->
@@ -126,24 +133,17 @@
                             </thead>
                             <tbody>
                             <tr th:each="article:${pageInfo.list}" th:if="${article.getDel()}==0">
-                                <td style="line-height: 138px" th:text="${article.getTitle()}" class="text-center"></td>
-                                <td style="line-height: 138px" th:text="${article.getAuthor()}" class="text-center"></td>
-                                <td style="line-height: 138px"
-                                    th:if="${article.getAuditStatus()}=='ToBeReviewed'"
-                                    class="text-center">待审核
+                                <td th:text="${article.getTitle()}" class="text-center"></td>
+                                <td th:text="${article.getAuthor()}" class="text-center"></td>
+                                <td th:if="${article.getAuditStatus()}=='ToBeReviewed'" class="text-center">待审核
                                 </td>
-                                <td style="line-height: 138px"
-                                    th:if="${article.getAuditStatus()}=='Passed'"
-                                    class="text-center">审核通过
+                                <td th:if="${article.getAuditStatus()}=='Passed'" class="text-center">审核通过
                                 </td>
-                                <td style="line-height: 138px"
-                                    th:if="${article.getAuditStatus()}=='Failed'"
-                                    class="text-center">已驳回
+                                <td th:if="${article.getAuditStatus()}=='Failed'" class="text-center">已驳回
                                 </td>
-                                <td style="line-height: 138px"
-                                    th:text="${article.getReason()}==''?'无':${article.getReason()}"
+                                <td th:text="${article.getReason()}==''?'无':${article.getReason()}"
                                     class="text-center"></td>
-                                <td style="line-height: 138px" class="text-center">
+                                <td class="text-center">
                                     <a class="btn btn-sm btn-default" th:href="@{/backPage/articleDetail/}+${article.getId()}">查看文稿</a>
                                     &nbsp;|&nbsp;
                                     <a class="btn btn-sm btn-danger" th:onclick="delArticle([[${article.getId()}]])">删除</a>
@@ -288,6 +288,17 @@
         window.location.href = "[[@{/articleManagement/1/}]]" + pageSize;
     }
 
+    let userName = $("#userName")[0];
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    userName.onkeypress = function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/articleManagement/1/5?userName=}]]" + userName.value
+        }
+    }
 </script>
 
 </body>

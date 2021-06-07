@@ -28,9 +28,14 @@ public interface ArticleDao {
     void updateArticle(Article article);
 
     /**
-     * @description 查看全部的文稿/根据用户登录名查询文稿
+     * @description 前台查看全部的文稿/根据用户登录名查询文稿
      **/
-    List<ArticleRes> selectArticlesByUserName(@Param("userName") String userName);
+    List<ArticleRes> selectArticlesByUserNameToFrontPage(@Param("userName") String userName);
+
+    /**
+     * @description 后台台查看全部的文稿/根据用户登录名查询文稿
+     **/
+    List<ArticleRes> selectArticlesByUserNameToBackPage(@Param("userName") String userName);
 
     /**
      * @description 根据文稿id查看文稿详情

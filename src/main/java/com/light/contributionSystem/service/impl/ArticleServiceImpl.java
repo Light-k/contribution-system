@@ -102,7 +102,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageInfo articleMarket(Integer pageNum, Integer pageSize, String userName) {
         PageHelper.startPage(pageNum, pageSize);
-        List<ArticleRes> articleRes = articleDao.selectArticlesByUserName(userName);
+        List<ArticleRes> articleRes = articleDao.selectArticlesByUserNameToFrontPage(userName);
         if (!CollectionUtils.isEmpty(articleRes)) {
             for (ArticleRes articleRe : articleRes) {
                 articleRe.setAuthor(systemUserDao.selectSystemUserNameByUserId(articleRe.getUserId()));
@@ -125,7 +125,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageInfo articleManagement(Integer pageNum, Integer pageSize, String userName) {
         PageHelper.startPage(pageNum, pageSize);
-        List<ArticleRes> articleRes = articleDao.selectArticlesByUserName(userName);
+        List<ArticleRes> articleRes = articleDao.selectArticlesByUserNameToBackPage(userName);
         if (!CollectionUtils.isEmpty(articleRes)) {
             for (ArticleRes articleRe : articleRes) {
                 articleRe.setAuthor(systemUserDao.selectSystemUserNameByUserId(articleRe.getUserId()));

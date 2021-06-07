@@ -30,8 +30,29 @@
         where uuid = #{uuid};
     </update>
 
-    <!--查看全部的文稿/根据用户登录名查询文稿-->
-    <select id="selectArticlesByUserName" parameterType="string"
+    <!--前台查看全部的文稿/根据用户登录名查询文稿-->
+    <select id="selectArticlesByUserNameToFrontPage" parameterType="string"
+            resultType="com.light.contributionSystem.common.output.ArticleRes">
+        select a.uuid id,
+        a.user_id userId,
+        a.title title,
+        a.content content,
+        a.audit_status auditStatus,
+        a.reason reason,
+        a.del del
+        from article a
+        left join system_user su
+        on a.user_id = su.uuid
+        where
+        a.del = 0
+        and a.audit_status = "Passed"
+        <if test="userName != null and userName != ''">
+            and su.user_name like "%"#{userName}"%"
+        </if>
+    </select>
+
+    <!--后台台查看全部的文稿/根据用户登录名查询文稿-->
+    <select id="selectArticlesByUserNameToBackPage" parameterType="string"
             resultType="com.light.contributionSystem.common.output.ArticleRes">
         select a.uuid id,
         a.user_id userId,
@@ -46,7 +67,7 @@
         where
         a.del = 0
         <if test="userName != null and userName != ''">
-            and su.user_name like '%'#{userName}'%'
+            and su.user_name like "%"#{userName}"%"
         </if>
     </select>
 
