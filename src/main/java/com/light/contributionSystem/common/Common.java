@@ -23,4 +23,9 @@ public class Common {
      * @description 响应失败状态码
      **/
     public static final Integer ERROR_RESPONSE_STATUS_CODE = 500;
+    /**
+     * @description 标志是否存在该时间
+     **/
+    public static final Long non_dateTime = 0L;
+
 }

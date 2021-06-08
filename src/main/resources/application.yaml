@@ -16,6 +16,9 @@ spring:
     password: 123456
     hikari:
       maximum-pool-size: 10
+  #配置aop
+  aop:
+    proxy-target-class: false
 
 #配置mybatis
 mybatis:
