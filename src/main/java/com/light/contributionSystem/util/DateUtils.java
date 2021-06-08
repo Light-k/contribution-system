@@ -14,16 +14,20 @@ public class DateUtils {
      * @description 计算时间差
      **/
     public static String getTimeDifference(Long beginTime, Long endTime) {
-        long timeDifference = endTime - beginTime;      //毫秒
-        long second = timeDifference / 1000;
+        System.out.println(beginTime +"--"+endTime);
+        long millisecond = endTime - beginTime;      //毫秒
+        long second = millisecond / 1000;
         long minute = second / 60;
         long hour = minute / 60;
         if (Common.non_dateTime < hour) {
-            return hour + "h" + minute + "m" + second + "s";
+            return hour + "小时" + minute + "分钟" + second + "秒钟" + millisecond + "毫秒";
         }
         if (Common.non_dateTime < minute) {
-            return minute + "m" + second + "s";
+            return minute + "分钟" + second + "秒钟" + millisecond + "毫秒";
         }
-        return second + "s";
+        if(Common.non_dateTime < second){
+            return second + "秒钟" + millisecond + "毫秒";
+        }
+        return millisecond + "毫秒";
     }
 }

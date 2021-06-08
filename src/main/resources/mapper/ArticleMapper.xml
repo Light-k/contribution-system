@@ -56,11 +56,11 @@
             resultType="com.light.contributionSystem.common.output.ArticleRes">
         select a.uuid id,
         a.user_id userId,
-        a.title title,
-        a.content content,
+        a.title,
+        a.content,
         a.audit_status auditStatus,
-        a.reason reason,
-        a.del del
+        a.reason,
+        a.del
         from article a
         left join system_user su
         on a.user_id = su.uuid
@@ -73,13 +73,13 @@
 
     <!--根据文稿id查看文稿详情-->
     <select id="selectArticleByUuid" parameterType="string" resultType="article">
-        select uuid         uuid,
+        select uuid,
                user_id      userId,
-               title        title,
-               content      content,
+               title,
+               content,
                audit_status auditStatus,
-               reason       reason,
-               del          del
+               reason,
+               del
         from article
         where uuid = #{uuid}
           and del = 0
@@ -90,11 +90,11 @@
             resultType="com.light.contributionSystem.common.output.ArticleRes">
         select uuid         id,
                user_id      userId,
-               title        title,
-               content      content,
+               title,
+               content,
                audit_status auditStatus,
-               reason       reason,
-               del          del
+               reason,
+               del
         from article
         where user_id = #{userId}
           and del = 0

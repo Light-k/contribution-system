@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.light.contributionSystem.dao.SystemLogsDao">
+    <!--添加日志-->
+    <insert id="insertSystemLog" parameterType="systemLogs">
+        insert into system_logs (uuid,
+                                 user_name,
+                                 url,
+                                 visit_time,
+                                 duration,
+                                 del)
+        values (#{uuid},
+                #{userName},
+                #{url},
+                #{visitTime},
+                #{duration},
+                0);
+    </insert>
+
+    <!--查看日志-->
+    <select id="selectAllSystemLogs" resultType="systemLogs">
+        select uuid,
+               user_name  userName,
+               url,
+               visit_time visitTime,
+               duration,
+               del
+        from system_logs
+        where del = 0
+        order by visit_time desc
+    </select>
+
+    <!--删除日志-->
+    <delete id="deleteSystemLog" parameterType="string">
+        delete
+        from system_logs
+        where uuid = #{uuid}
+    </delete>
+
+</mapper>

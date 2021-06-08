@@ -1,14 +1,18 @@
 package com.light.contributionSystem.aspect;
 
 
+import com.light.contributionSystem.entity.SystemLogs;
+import com.light.contributionSystem.service.SystemLogsService;
 import com.light.contributionSystem.util.DateUtils;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author KangXu
@@ -20,12 +24,18 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 public class Aop {
 
-    @Autowired
-    private HttpServletRequest request;
+    private final HttpServletRequest request;
+    private final SystemLogsService systemLogsService;
+
+    public Aop(HttpServletRequest request, SystemLogsService systemLogsService) {
+        this.request = request;
+        this.systemLogsService = systemLogsService;
+    }
+
     /**
      * @description 访问时间
      **/
-    private long visitTime;
+    private Date visitTime;
 
 
     /**
@@ -33,7 +43,7 @@ public class Aop {
      **/
     @Before("execution(* com.light.contributionSystem.controller.*.*(..))")
     public void logBeforeController() {
-        visitTime = System.currentTimeMillis();
+        visitTime = new Date();
     }
 
     /**
@@ -41,9 +51,19 @@ public class Aop {
      **/
     @After("execution(* com.light.contributionSystem.controller.*.*(..))")
     public void logAfterController() {
-        //执行时长
-        String timeDifference = DateUtils.getTimeDifference(visitTime, System.currentTimeMillis());
-        //获取请求url
-        StringBuffer requestURL = request.getRequestURL();
+        List<String> requestUser = new ArrayList<>();
+        requestUser.add("/");
+        requestUser.add("/toRegister");
+        requestUser.add("/toLogin");
+        requestUser.add("/exit");
+        if (!requestUser.contains(request.getServletPath()) && !request.getServletPath().contains("/systemUser")) {
+            SystemLogs systemLogs = new SystemLogs();
+            systemLogs
+                    .setUserName((String) request.getSession().getAttribute("userName"))
+                    .setUrl(request.getRequestURL().toString())
+                    .setVisitTime(visitTime)
+                    .setDuration(DateUtils.getTimeDifference(visitTime.getTime(), System.currentTimeMillis()));
+            systemLogsService.addSystemLog(systemLogs);
+        }
     }
 }

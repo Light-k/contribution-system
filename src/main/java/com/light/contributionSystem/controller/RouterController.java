@@ -1,6 +1,7 @@
 package com.light.contributionSystem.controller;
 
 import com.light.contributionSystem.service.ArticleService;
+import com.light.contributionSystem.service.SystemLogsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,11 @@ import javax.servlet.http.HttpSession;
 public class RouterController {
 
     private final ArticleService articleService;
+    private final SystemLogsService systemLogsService;
 
-    public RouterController(ArticleService articleService) {
+    public RouterController(ArticleService articleService, SystemLogsService systemLogsService) {
         this.articleService = articleService;
+        this.systemLogsService = systemLogsService;
     }
 
     /**
@@ -135,6 +138,17 @@ public class RouterController {
     public String backPageArticleDetail(@PathVariable("uuid") String uuid, Model model) {
         model.addAttribute("article", articleService.findArticleDetail(uuid));
         return "admin/articleDetail";
+    }
+
+    /**
+     * @description 系统日志页面
+     **/
+    @GetMapping("/systemLogs/{pageNum}/{pageSize}")
+    public String systemLogs(@PathVariable("pageNum") Integer pageNum,
+                             @PathVariable("pageSize") Integer pageSize,
+                             Model model) {
+        model.addAttribute("pageInfo", systemLogsService.selectAllSystemLogs(pageNum, pageSize));
+        return "admin/logs";
     }
 
 }
