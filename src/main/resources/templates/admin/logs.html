@@ -31,8 +31,10 @@
     <link rel="stylesheet" th:href="@{/plugins/ionslider/ion.rangeSlider.css}">
     <link rel="stylesheet" th:href="@{/plugins/ionslider/ion.rangeSlider.skinNice.css}">
     <link rel="stylesheet" th:href="@{/plugins/bootstrap-slider/slider.css}">
-    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css}">
-
+    <link rel="stylesheet"
+          th:href="@{https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css}">
+    <link rel="stylesheet"
+          th:href="@{https://cdn.bootcdn.net/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css}">
     <script type="text/javascript">
 
         // 刷新
@@ -109,24 +111,45 @@
                             </div>
                         </div>
                         <div class="pull-center">
-                            <label>选择日期+时间：</label>
+                            <div class="col-md-3 text-right">
+                                <div th:if="${pageInfo.total} == 0" th:text="暂无结果"
+                                     style="color: red;padding-top: 5px"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input style="border-radius: 5px 0 0 5px" id="userName" type="text" class="form-control input-sm" name="userName"
+                                           placeholder="请根据访问者名称搜索">
+                                    <span class="input-group-addon" style="border-radius: 0px 5px 5px 0px">
+                                       <span class="glyphicon glyphicon-search"></span>
+                                    </span>
+                                </div>
+                            </div>
                             <!--指定 date标记-->
-                            <div class='input-group date' id='datetimepicker2'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+                            <div class="col-md-2">
+                                <div class="input-group date" id="startTime">
+                                    <input style="border-radius: 5px 0 0 5px" readonly type="text"
+                                           class="form-control" placeholder="请选择开始时间"/>
+                                    <span class="input-group-addon" style="border-radius: 0px 5px 5px 0px">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="width: 20px;height: 34px;margin: 0 auto;padding: 5px 5px">至
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group date" id="endTime">
+                                    <input style="border-radius: 5px 0 0 5px" readonly type="text"
+                                           class="form-control" placeholder="请选择结束时间"/>
+                                    <span class="input-group-addon" style="border-radius: 0px 5px 5px 0px">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-sm bg-green" onclick="findLogsByCondition()">搜索
+                                </button>
                             </div>
                         </div>
-                        <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input id="userName" type="text" class="form-control input-sm" name="userName"
-                                       placeholder="请根据作者名字搜索">
-                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                            </div>
-                        </div>
-                        <div th:if="${pageInfo.total} == 0" th:text="暂无结果" class="pull-right"
-                             style="margin-right: 10px;color: red"></div>
                         <!--工具栏/-->
 
                         <!--数据列表-->
@@ -291,22 +314,113 @@
         window.location.href = "[[@{/systemLogs/1/}]]" + pageSize;
     }
 
-    $("#datetimepicker2").datetimepicker({
-        format: 'YYYY-MM-DD HH:mm:ss'
+    /**
+     * 设置时间插件
+     */
+    $("#startTime").datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        ignoreReadonly: true,
+        maxDate: new Date(),
+        locale: 'zh-cn',
+        showClear: true,
+        showClose: true,
+        icons: {
+            time: 'glyphicon glyphicon-time',
+            date: 'glyphicon glyphicon-calendar',
+            up: 'glyphicon glyphicon-chevron-up',
+            down: 'glyphicon glyphicon-chevron-down',
+            previous: 'glyphicon glyphicon-chevron-left',
+            next: 'glyphicon glyphicon-chevron-right',
+            today: 'glyphicon glyphicon-screenshot',
+            clear: 'glyphicon glyphicon-trash',
+            close: 'glyphicon glyphicon-ok'
+        },
+        tooltips: {
+            clear: '清除时间',
+            close: '确定',
+            selectTime: '请选择时间'
+        }
+    })
+
+    $("#endTime").datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        ignoreReadonly: true,
+        maxDate: new Date(),
+        locale: 'zh-cn',
+        showClear: true,
+        showClose: true,
+        icons: {
+            time: 'glyphicon glyphicon-time',
+            date: 'glyphicon glyphicon-calendar',
+            up: 'glyphicon glyphicon-chevron-up',
+            down: 'glyphicon glyphicon-chevron-down',
+            previous: 'glyphicon glyphicon-chevron-left',
+            next: 'glyphicon glyphicon-chevron-right',
+            today: 'glyphicon glyphicon-screenshot',
+            clear: 'glyphicon glyphicon-trash',
+            close: 'glyphicon glyphicon-ok'
+        },
+        tooltips: {
+            clear: '清除时间',
+            close: '确定',
+            selectTime: '请选择时间'
+        }
     });
 
+    let startTime;          //起始时间
+    let endTime;            //结束时间
+    let userName = $("#userName")[0];       //用户昵称
 
-    // let userName = $("#userName")[0];
-    //
-    // /**
-    //  * 回车提交事件
-    //  * @param event
-    //  */
-    // userName.onkeypress = function handleEnter(event) {
-    //     if (event.which === 13) {
-    //         window.location.href = "[[@{/systemLogs/1/5?userName=}]]" + userName.value
-    //     }
-    // }
+    /**
+     * 根据条件查询日志
+     */
+    function findLogsByCondition() {
+        startTime = $('#startTime').data().date;
+        endTime = $("#endTime").data().date;
+        if (null === userName.value || '' === userName.value) {
+            if (undefined === startTime || undefined === endTime) {
+                if (undefined === startTime && undefined === endTime) {
+                    window.location.href = "[[@{/systemLogs/1/5}]]";
+                } else if (undefined === endTime) {
+                    window.location.href = "[[@{/systemLogs/1/5}]]" + "?startTime=" + startTime;
+                } else {
+                    window.location.href = "[[@{/systemLogs/1/5}]]" + "?endTime=" + endTime;
+                }
+            } else {
+                if (startTime <= endTime) {
+                    window.location.href = "[[@{/systemLogs/1/5}]]"
+                        + "?startTime=" + startTime
+                        + "&endTime=" + endTime
+                } else {
+                    alert("起始时间不能大于结束时间");
+                }
+            }
+        } else {
+            if (undefined === startTime || undefined === endTime) {
+                if (undefined === startTime && undefined === endTime) {
+                    window.location.href = "[[@{/systemLogs/1/5}]]" + "?userName=" + userName.value;
+                } else if (undefined === endTime) {
+                    window.location.href = "[[@{/systemLogs/1/5}]]"
+                        + "?userName=" + userName.value
+                        + "&startTime=" + startTime;
+                } else {
+                    window.location.href = "[[@{/systemLogs/1/5}]]"
+                        + "?userName=" + userName.value
+                        + "&endTime=" + endTime;
+                }
+            } else {
+                if (startTime <= endTime) {
+                    window.location.href = "[[@{/systemLogs/1/5}]]"
+                        + "?userName=" + userName.value
+                        + "&startTime=" + startTime
+                        + "&endTime=" + endTime
+                } else {
+                    alert("起始时间不能大于结束时间");
+                }
+            }
+        }
+    }
+
 </script>
 
 </body>

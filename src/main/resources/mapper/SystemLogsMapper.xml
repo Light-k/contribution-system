@@ -28,6 +28,20 @@
                del
         from system_logs
         where del = 0
+        <if test="userName != null and userName != ''">
+            and user_name like "%"#{userName}"%"
+        </if>
+        <if test="(startTime != null and startTime != '') or (endTime != null and endTime != '')">
+            <if test="(startTime != null and startTime != '') and (endTime != null and endTime != '')">
+                and visit_time between #{startTime} and #{endTime}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and visit_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and visit_time &lt;= #{endTime}
+            </if>
+        </if>
         order by visit_time desc
     </select>
 

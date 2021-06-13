@@ -40,9 +40,14 @@ public class SystemLogsServiceImpl implements SystemLogsService {
      * @description 查看日志
      **/
     @Override
-    public PageInfo selectAllSystemLogs(Integer pageNum, Integer pageSize) {
+    public PageInfo selectAllSystemLogs(Integer pageNum,
+                                        Integer pageSize,
+                                        String userName,
+                                        String startTime,
+                                        String endTime) {
         PageHelper.startPage(pageNum, pageSize);
-        List<SystemLogs> systemLogs = systemLogsDao.selectAllSystemLogs();
+        List<SystemLogs> systemLogs = systemLogsDao
+                .selectAllSystemLogs(userName, startTime, endTime);
         return new PageInfo(systemLogs);
     }
 
@@ -52,6 +57,6 @@ public class SystemLogsServiceImpl implements SystemLogsService {
     @Override
     public BaseResponse delSystemLog(String uuid) {
         systemLogsDao.deleteSystemLog(uuid);
-        return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS,"删除成功");
+        return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS, "删除成功");
     }
 }

@@ -146,8 +146,12 @@ public class RouterController {
     @GetMapping("/systemLogs/{pageNum}/{pageSize}")
     public String systemLogs(@PathVariable("pageNum") Integer pageNum,
                              @PathVariable("pageSize") Integer pageSize,
+                             @RequestParam(required = false) String userName,
+                             @RequestParam(required = false) String startTime,
+                             @RequestParam(required = false) String endTime,
                              Model model) {
-        model.addAttribute("pageInfo", systemLogsService.selectAllSystemLogs(pageNum, pageSize));
+        model.addAttribute("pageInfo", systemLogsService
+                .selectAllSystemLogs(pageNum, pageSize, userName, startTime, endTime));
         return "admin/logs";
     }
 

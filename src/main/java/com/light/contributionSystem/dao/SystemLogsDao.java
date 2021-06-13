@@ -24,7 +24,9 @@ public interface SystemLogsDao {
     /**
      * @description 查看日志
      **/
-    List<SystemLogs> selectAllSystemLogs();
+    List<SystemLogs> selectAllSystemLogs(@Param("userName") String userName,
+                                         @Param("startTime") String startTime,
+                                         @Param("endTime") String endTime);
 
     /**
      * @description 删除日志
