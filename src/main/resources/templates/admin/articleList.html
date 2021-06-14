@@ -147,19 +147,9 @@
                                 </td>
                                 <td th:text="${article.getReason()}==''?'无':${article.getReason()}"
                                     class="text-center"></td>
-                                <td th:if="${article.getAuditStatus()}=='Passed'" class="text-center">
+                                <td th:if="${article.getAuditStatus()}=='Passed' or ${article.getAuditStatus()}=='OutTheShelf'" class="text-center">
                                     <a class="btn btn-sm btn-default"
                                        th:href="@{/backPage/articleDetail/}+${article.getId()}">查看文稿</a>
-                                    &nbsp;|&nbsp;
-                                    <a class="btn btn-sm btn-danger"
-                                       th:onclick="delArticle([[${article.getId()}]])">下架</a>
-                                </td>
-                                <td th:if="${article.getAuditStatus()}=='OutTheShelf'" class="text-center">
-                                    <a class="btn btn-sm btn-default"
-                                       th:href="@{/backPage/articleDetail/}+${article.getId()}">查看文稿</a>
-                                    &nbsp;|&nbsp;
-                                    <a class="btn btn-sm btn-danger"
-                                       th:onclick="delArticle([[${article.getId()}]])">上架</a>
                                 </td>
                                 <td th:if="${article.getAuditStatus()}!='Passed' and ${article.getAuditStatus()}!='OutTheShelf'"
                                     class="text-center">
@@ -324,25 +314,25 @@
     /*
     上下架
      */
-    // function audit(auditStatus, reason) {
-    //     $.ajax({
-    //         contentType: "application/json;charset=UTF-8",
-    //         type: "POST",
-    //         url: "/system/article/audit",
-    //         dataType: "json",
-    //         data: JSON.stringify({
-    //             uuid: uuid,
-    //             auditStatus: auditStatus,
-    //             reason: reason
-    //         }),
-    //         success: function (data) {
-    //             if ("success" === data.status) {
-    //                 flag = false;
-    //                 window.location.href = "/system/articleManagement/1/5";
-    //             }
-    //         }
-    //     })
-    // }
+    function audit(uuid,auditStatus, reason) {
+        $.ajax({
+            contentType: "application/json;charset=UTF-8",
+            type: "POST",
+            url: "/system/article/audit",
+            dataType: "json",
+            data: JSON.stringify({
+                uuid: uuid,
+                auditStatus: auditStatus,
+                reason: reason
+            }),
+            success: function (data) {
+                if ("success" === data.status) {
+                    flag = false;
+                    window.location.href = "/system/articleManagement/1/5";
+                }
+            }
+        })
+    }
 </script>
 
 </body>

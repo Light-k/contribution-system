@@ -71,7 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .setAuditStatus(auditStatus)
                 .setReason(reason);
         articleDao.updateArticle(article);
-        return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS, "完成审核");
+        return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS, "已完成");
     }
 
     /**

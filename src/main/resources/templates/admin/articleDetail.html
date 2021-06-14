@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <!--提示框-->
+            <!--审核提示框-->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -118,9 +118,74 @@
                 </div>
             </div>
 
+            <!--上架提示框-->
+            <div class="modal fade" id="inTheShelf" tabindex="-1" role="dialog" aria-labelledby="inTheShelfLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="inTheShelfLabel">上架</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="reason">上架理由</label>
+                                <input type="text" name="reason" class="form-control"
+                                       id="inTheShelf_reason" placeholder="上架理由">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                            </button>
+                            <button type="button" id="inTheShelf_btn_submit" class="btn btn-primary"
+                                    data-dismiss="modal"><span
+                                    class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--下架提示框-->
+            <div class="modal fade" id="outTheShelf" tabindex="-1" role="dialog" aria-labelledby="outTheShelfLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="outTheShelfLabel">下架</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="reason">下架理由</label>
+                                <input type="text" name="reason" class="form-control"
+                                       id="outTheShelf_reason" placeholder="下架理由">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                            </button>
+                            <button type="button" id="outTheShelf_btn_submit" class="btn btn-primary"
+                                    data-dismiss="modal"><span
+                                    class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="box-tools text-center">
-                <div class="col-md-6">
+                <div class="col-md-6"
+                     th:if="${article.getAuditStatus()}!='Passed' and ${article.getAuditStatus()}!='OutTheShelf'">
                     <button type="button" class="col-md-12 btn bg-green" onclick="toAudit()">审核</button>
+                </div>
+                <div class="col-md-6" th:if="${article.getAuditStatus()}=='Passed'">
+                    <button type="button" class="col-md-12 btn bg-danger" onclick="toOutTheShelf()">下架</button>
+                </div>
+                <div class="col-md-6" th:if="${article.getAuditStatus()}=='OutTheShelf'">
+                    <button type="button" class="col-md-12 btn bg-info" onclick="toInTheShelf()">上架</button>
                 </div>
                 <div class="col-md-6">
                     <a type="button" class="btn col-md-12 bg-default" onclick="history.back(-1);">返回</a>
@@ -221,37 +286,80 @@
     填写审核信息
      */
     $('#btn_submit').click(function () {
-        audit($("#auditStatus")[0].value,$("#reason")[0].value)
-
+        audit($("#auditStatus")[0].value, $("#reason")[0].value);
     })
-
-    let flag = true;
 
     /*
     完成审核
      */
-    function audit(auditStatus,reason){
-        if(flag){
-            $.ajax({
-                contentType: "application/json;charset=UTF-8",
-                type: "POST",
-                url: "/system/article/audit",
-                dataType: "json",
-                data: JSON.stringify({
-                    uuid: uuid,
-                    auditStatus: auditStatus,
-                    reason: reason
-                }),
-                success: function (data) {
-                    if ("success" === data.status) {
-                        flag = false;
-                        window.location.href = "/system/articleManagement/1/5";
-                    }
+    function audit(auditStatus, reason) {
+        $.ajax({
+            contentType: "application/json;charset=UTF-8",
+            type: "POST",
+            url: "/system/article/audit",
+            dataType: "json",
+            data: JSON.stringify({
+                uuid: uuid,
+                auditStatus: auditStatus,
+                reason: reason
+            }),
+            success: function (data) {
+                if ("success" === data.status) {
+                    window.location.href = "/system/articleManagement/1/5";
                 }
-            })
-        }
+            }
+        })
     }
 
+    /*
+   打开上架窗口
+    */
+    function toInTheShelf() {
+        $('#inTheShelf').modal();
+    }
+
+    /*
+   打开下架窗口
+    */
+    function toOutTheShelf() {
+        $('#outTheShelf').modal();
+    }
+
+    /*
+    填写上架信息
+     */
+    $('#inTheShelf_btn_submit').click(function () {
+        dealStatus('Passed', $("#inTheShelf_reason")[0].value);
+    })
+
+    /*
+    填写下架信息
+    */
+    $('#outTheShelf_btn_submit').click(function () {
+        dealStatus('OutTheShelf', $("#outTheShelf_reason")[0].value);
+    })
+
+    /*
+    处理上架/下架
+     */
+    function dealStatus(auditStatus, reason) {
+        $.ajax({
+            contentType: "application/json;charset=UTF-8",
+            type: "POST",
+            url: "/system/article/audit",
+            dataType: "json",
+            data: JSON.stringify({
+                uuid: uuid,
+                auditStatus: auditStatus,
+                reason: reason
+            }),
+            success: function (data) {
+                if ("success" === data.status) {
+                    window.location.href = "/system/articleManagement/1/5";
+                }
+            }
+        })
+    }
 
 
 </script>

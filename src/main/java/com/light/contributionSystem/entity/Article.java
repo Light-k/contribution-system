@@ -41,11 +41,13 @@ public class Article {
      * 待审核---ToBeReviewed
      * 审核通过---Passed
      * 审核未通过---Failed
+     * 已下架---OutTheShelf
      **/
     private String auditStatus;
     public static final String STATUS_TO_BE_REVIEWED = "ToBeReviewed";
     public static final String STATUS_PASSED = "Passed";
     public static final String STATUS_FAILED = "Failed";
+    public static final String STATUS_OUT_THE_SHELF = "OutTheShelf";
     /**
      * @description 审核理由
      **/
