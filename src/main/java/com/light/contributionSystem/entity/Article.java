@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.apache.ibatis.type.Alias;
 
+import java.util.Date;
+
 /**
  * @author KangXu
  * @description 文稿表
@@ -48,6 +50,10 @@ public class Article {
      * @description 审核理由
      **/
     private String reason;
+    /**
+     * @description 更新时间
+     **/
+    private Date updateTime;
     /**
      * @description 删除标记
      * 未删除---0

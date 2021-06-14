@@ -95,6 +95,16 @@
                     <h3 class="box-title">日志信息</h3>
                 </div>
 
+                <div id="alert-danger" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>起始时间不能大于结束时间!</strong>
+                </div>
+                <div th:if="${pageInfo.total} == 0" class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>暂无结果!</strong>
+                </div>
                 <div class="box-body">
 
                     <!-- 数据表格 -->
@@ -110,14 +120,13 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="pull-center">
-                            <div class="col-md-3 text-right">
-                                <div th:if="${pageInfo.total} == 0" th:text="暂无结果"
-                                     style="color: red;padding-top: 5px"></div>
-                            </div>
+                            <div class="col-md-3"></div>
                             <div class="col-md-2">
                                 <div class="input-group">
-                                    <input style="border-radius: 5px 0 0 5px" id="userName" type="text" class="form-control input-sm" name="userName"
+                                    <input style="border-radius: 5px 0 0 5px" id="userName" type="text"
+                                           class="form-control input-sm" name="userName"
                                            placeholder="请根据访问者名称搜索">
                                     <span class="input-group-addon" style="border-radius: 0px 5px 5px 0px">
                                        <span class="glyphicon glyphicon-search"></span>
@@ -392,7 +401,7 @@
                         + "?startTime=" + startTime
                         + "&endTime=" + endTime
                 } else {
-                    alert("起始时间不能大于结束时间");
+                    $("#alert-danger")[0].style.display = "block";
                 }
             }
         } else {
@@ -415,7 +424,7 @@
                         + "&startTime=" + startTime
                         + "&endTime=" + endTime
                 } else {
-                    alert("起始时间不能大于结束时间");
+                    $("#alert-danger")[0].style.display = "block";
                 }
             }
         }

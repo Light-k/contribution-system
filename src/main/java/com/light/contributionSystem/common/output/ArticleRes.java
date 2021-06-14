@@ -2,6 +2,8 @@ package com.light.contributionSystem.common.output;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author KangXu
  * @description 文稿返回值
@@ -34,6 +36,10 @@ public class ArticleRes {
      * @description 审核理由
      **/
     private String reason;
+    /**
+     * @description 更新时间
+     **/
+    private Date updateTime;
     /**
      * @description 删除标记
      **/

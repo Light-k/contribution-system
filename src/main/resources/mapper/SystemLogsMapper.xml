@@ -21,11 +21,11 @@
     <!--查看日志-->
     <select id="selectAllSystemLogs" resultType="systemLogs">
         select uuid,
-               user_name  userName,
-               url,
-               visit_time visitTime,
-               duration,
-               del
+        user_name userName,
+        url,
+        visit_time visitTime,
+        duration,
+        del
         from system_logs
         where del = 0
         <if test="userName != null and userName != ''">

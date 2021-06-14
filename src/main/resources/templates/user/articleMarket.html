@@ -76,6 +76,12 @@
                     <h3 class="box-title">文稿信息</h3>
                 </div>
 
+                <div th:if="${pageInfo.total} == 0" class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>暂无结果!</strong>
+                </div>
+
                 <div class="box-body">
 
                     <!-- 数据表格 -->
@@ -98,8 +104,7 @@
                                 <span class="glyphicon glyphicon-search form-control-feedback"></span>
                             </div>
                         </div>
-                        <div th:if="${pageInfo.total} == 0" th:text="暂无结果" class="pull-right"
-                             style="margin-right: 10px;color: red"></div>
+
                         <!--工具栏/-->
 
                         <!--数据列表-->
@@ -108,6 +113,7 @@
                             <tr>
                                 <th class="text-center">文稿的标题</th>
                                 <th class="text-center">文稿的作者</th>
+                                <th class="text-center">文稿的发布时间</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
@@ -115,6 +121,8 @@
                             <tr th:each="article:${pageInfo.list}" th:if="${article.getDel()}==0">
                                 <td th:text="${article.getTitle()}" class="text-center"></td>
                                 <td th:text="${article.getAuthor()}" class="text-center"></td>
+                                <td th:text="${#dates.format(article.getUpdateTime(),'yyyy-MM-dd HH:mm:ss')}"
+                                    class="text-center"></td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-default"
                                        th:href="@{/frontPage/articleDetail/}+${article.getId()}">查看文稿</a>

@@ -10,6 +10,7 @@
                              content,
                              audit_status,
                              reason,
+                             update_time,
                              del)
         values (#{uuid},
                 #{userId},
@@ -17,6 +18,7 @@
                 #{content},
                 "ToBeReviewed",
                 "",
+                now(),
                 0);
     </insert>
 
@@ -26,6 +28,7 @@
         set content      = #{content}
           , audit_status = #{auditStatus}
           , reason       = #{reason}
+          , update_time  = now()
           , del          = #{del}
         where uuid = #{uuid};
     </update>
@@ -39,6 +42,7 @@
         a.content content,
         a.audit_status auditStatus,
         a.reason reason,
+        a.update_time updateTime,
         a.del del
         from article a
         left join system_user su
@@ -60,6 +64,7 @@
         a.content,
         a.audit_status auditStatus,
         a.reason,
+        a.update_time updateTime,
         a.del
         from article a
         left join system_user su
@@ -79,6 +84,7 @@
                content,
                audit_status auditStatus,
                reason,
+               update_time  updateTime,
                del
         from article
         where uuid = #{uuid}
@@ -94,6 +100,7 @@
                content,
                audit_status auditStatus,
                reason,
+               update_time  updateTime,
                del
         from article
         where user_id = #{userId}

@@ -94,6 +94,12 @@
                     <h3 class="box-title">文稿信息</h3>
                 </div>
 
+                <div th:if="${pageInfo.total} == 0" class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>暂无结果!</strong>
+                </div>
+
                 <div class="box-body">
 
                     <!-- 数据表格 -->
@@ -116,8 +122,6 @@
                                 <span class="glyphicon glyphicon-search form-control-feedback"></span>
                             </div>
                         </div>
-                        <div th:if="${pageInfo.total} == 0" th:text="暂无结果" class="pull-right"
-                             style="margin-right: 10px;color: red"></div>
                         <!--工具栏/-->
 
                         <!--数据列表-->
@@ -143,10 +147,27 @@
                                 </td>
                                 <td th:text="${article.getReason()}==''?'无':${article.getReason()}"
                                     class="text-center"></td>
-                                <td class="text-center">
-                                    <a class="btn btn-sm btn-default" th:href="@{/backPage/articleDetail/}+${article.getId()}">查看文稿</a>
+                                <td th:if="${article.getAuditStatus()}=='Passed'" class="text-center">
+                                    <a class="btn btn-sm btn-default"
+                                       th:href="@{/backPage/articleDetail/}+${article.getId()}">查看文稿</a>
                                     &nbsp;|&nbsp;
-                                    <a class="btn btn-sm btn-danger" th:onclick="delArticle([[${article.getId()}]])">删除</a>
+                                    <a class="btn btn-sm btn-danger"
+                                       th:onclick="delArticle([[${article.getId()}]])">下架</a>
+                                </td>
+                                <td th:if="${article.getAuditStatus()}=='OutTheShelf'" class="text-center">
+                                    <a class="btn btn-sm btn-default"
+                                       th:href="@{/backPage/articleDetail/}+${article.getId()}">查看文稿</a>
+                                    &nbsp;|&nbsp;
+                                    <a class="btn btn-sm btn-danger"
+                                       th:onclick="delArticle([[${article.getId()}]])">上架</a>
+                                </td>
+                                <td th:if="${article.getAuditStatus()}!='Passed' and ${article.getAuditStatus()}!='OutTheShelf'"
+                                    class="text-center">
+                                    <a class="btn btn-sm btn-default"
+                                       th:href="@{/backPage/articleDetail/}+${article.getId()}">查看文稿</a>
+                                    &nbsp;|&nbsp;
+                                    <a class="btn btn-sm btn-danger"
+                                       th:onclick="delArticle([[${article.getId()}]])">删除</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -299,6 +320,29 @@
             window.location.href = "[[@{/articleManagement/1/5?userName=}]]" + userName.value
         }
     }
+
+    /*
+    上下架
+     */
+    // function audit(auditStatus, reason) {
+    //     $.ajax({
+    //         contentType: "application/json;charset=UTF-8",
+    //         type: "POST",
+    //         url: "/system/article/audit",
+    //         dataType: "json",
+    //         data: JSON.stringify({
+    //             uuid: uuid,
+    //             auditStatus: auditStatus,
+    //             reason: reason
+    //         }),
+    //         success: function (data) {
+    //             if ("success" === data.status) {
+    //                 flag = false;
+    //                 window.location.href = "/system/articleManagement/1/5";
+    //             }
+    //         }
+    //     })
+    // }
 </script>
 
 </body>
