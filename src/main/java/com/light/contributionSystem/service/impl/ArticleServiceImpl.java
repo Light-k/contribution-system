@@ -80,7 +80,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public BaseResponse editArticle(String uuid, String content) {
         Article article = articleDao.selectArticleByUuid(uuid);
-        article.setContent(content);
+        article
+                .setContent(content)
+                .setAuditStatus(Article.STATUS_TO_BE_REVIEWED);
         articleDao.updateArticle(article);
         return BaseResponse.resp(Common.SUCCESS_RESPONSE_STATUS, "编辑成功");
     }

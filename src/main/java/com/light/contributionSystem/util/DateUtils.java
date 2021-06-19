@@ -18,13 +18,13 @@ public class DateUtils {
         long second = millisecond / 1000;
         long minute = second / 60;
         long hour = minute / 60;
-        if (Common.non_dateTime < hour) {
+        if (Common.NON_DATE_TIME < hour) {
             return hour + "小时" + minute + "分钟" + second + "秒钟" + millisecond + "毫秒";
         }
-        if (Common.non_dateTime < minute) {
+        if (Common.NON_DATE_TIME < minute) {
             return minute + "分钟" + second + "秒钟" + millisecond + "毫秒";
         }
-        if(Common.non_dateTime < second){
+        if(Common.NON_DATE_TIME < second){
             return second + "秒钟" + millisecond + "毫秒";
         }
         return millisecond + "毫秒";

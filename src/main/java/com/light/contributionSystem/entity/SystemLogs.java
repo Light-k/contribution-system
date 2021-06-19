@@ -33,6 +33,10 @@ public class SystemLogs {
      **/
     private String url;
     /**
+     * @description 对应的业务功能
+     **/
+    private String businessFunction;
+    /**
      * @description 访问时间
      **/
     private Date visitTime;

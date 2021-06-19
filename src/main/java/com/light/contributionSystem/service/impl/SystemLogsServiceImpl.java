@@ -7,6 +7,7 @@ import com.light.contributionSystem.common.Common;
 import com.light.contributionSystem.dao.SystemLogsDao;
 import com.light.contributionSystem.entity.SystemLogs;
 import com.light.contributionSystem.service.SystemLogsService;
+import com.light.contributionSystem.util.DesensitizationUtils;
 import com.light.contributionSystem.util.IdUtils;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,11 @@ public class SystemLogsServiceImpl implements SystemLogsService {
         PageHelper.startPage(pageNum, pageSize);
         List<SystemLogs> systemLogs = systemLogsDao
                 .selectAllSystemLogs(userName, startTime, endTime);
+        for (SystemLogs systemLog : systemLogs) {
+            systemLog
+                    .setUserName(DesensitizationUtils.desensitizationLinkUser(systemLog.getUserName()))
+                    .setUrl(DesensitizationUtils.desensitizationUrl(systemLog.getUrl()));
+        }
         return new PageInfo(systemLogs);
     }
 

@@ -167,6 +167,7 @@
                             <tr>
                                 <th class="text-center">访问人</th>
                                 <th class="text-center">访问的接口地址</th>
+                                <th class="text-center">访问的业务功能</th>
                                 <th class="text-center">访问的时间</th>
                                 <th class="text-center">请求的时长</th>
                                 <th class="text-center">操作</th>
@@ -176,6 +177,7 @@
                             <tr th:each="log:${pageInfo.list}" th:if="${log.getDel()}==0">
                                 <td th:text="${log.getUserName()}" class="text-center"></td>
                                 <td th:text="${log.getUrl()}" class="text-center"></td>
+                                <td th:text="${log.getBusinessFunction()}" class="text-center"></td>
                                 <td th:text="${#dates.format(log.getVisitTime(),'yyyy-MM-dd HH:mm:ss')}"
                                     class="text-center"></td>
                                 <td th:text="${log.getDuration()}" class="text-center"></td>

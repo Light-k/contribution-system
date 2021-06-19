@@ -137,16 +137,23 @@
                                 </td>
                                 <td th:if="${article.getAuditStatus()}=='Failed'" class="text-center">已驳回
                                 </td>
-                                <td th:text="${article.getReason()}==''?'无':${article.getReason()}" class="text-center"></td>
-                                <td th:if="${article.getAuditStatus()}=='ToBeReviewed'or ${article.getAuditStatus()}=='Failed'"
+                                <td th:if="${article.getAuditStatus()}=='OutTheShelf'" class="text-center">已下架
+                                </td>
+                                <td th:text="${article.getReason()}==''?'无':${article.getReason()}"
+                                    class="text-center"></td>
+                                <td th:if="${article.getAuditStatus()}=='ToBeReviewed' or
+                                ${article.getAuditStatus()}=='Failed' or
+                                ${article.getAuditStatus()}=='OutTheShelf'"
                                     class="text-center">
                                     <a class="btn btn-sm btn-info"
                                        th:href="@{/updArticle/}+${article.getId()}">编辑文稿</a>
                                     &nbsp;|&nbsp;
-                                    <a class="btn btn-sm btn-danger" th:onclick="delArticle([[${article.getId()}]])">删除</a>
+                                    <a class="btn btn-sm btn-danger"
+                                       th:onclick="delArticle([[${article.getId()}]])">删除</a>
                                 </td>
                                 <td th:if="${article.getAuditStatus()}=='Passed'" class="text-center">
-                                    <a class="btn btn-sm btn-default" th:href="@{/frontPage/articleDetail/}+${article.getId()}">查看文稿</a>
+                                    <a class="btn btn-sm btn-default"
+                                       th:href="@{/frontPage/articleDetail/}+${article.getId()}">查看文稿</a>
                                 </td>
                             </tr>
                             </tbody>

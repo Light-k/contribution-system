@@ -145,6 +145,8 @@
                                 </td>
                                 <td th:if="${article.getAuditStatus()}=='Failed'" class="text-center">已驳回
                                 </td>
+                                <td th:if="${article.getAuditStatus()}=='OutTheShelf'" class="text-center">已下架
+                                </td>
                                 <td th:text="${article.getReason()}==''?'无':${article.getReason()}"
                                     class="text-center"></td>
                                 <td th:if="${article.getAuditStatus()}=='Passed' or ${article.getAuditStatus()}=='OutTheShelf'" class="text-center">

@@ -7,12 +7,14 @@
         insert into system_logs (uuid,
                                  user_name,
                                  url,
+                                 business_function,
                                  visit_time,
                                  duration,
                                  del)
         values (#{uuid},
                 #{userName},
                 #{url},
+                #{businessFunction},
                 #{visitTime},
                 #{duration},
                 0);
@@ -23,6 +25,7 @@
         select uuid,
         user_name userName,
         url,
+        business_function businessFunction,
         visit_time visitTime,
         duration,
         del

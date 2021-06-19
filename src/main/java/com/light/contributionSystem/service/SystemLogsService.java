@@ -22,11 +22,8 @@ public interface SystemLogsService {
     /**
      * @description 查看日志
      **/
-    PageInfo selectAllSystemLogs(Integer pageNum,
-                                 Integer pageSize,
-                                 String userName,
-                                 String startTime,
-                                 String endTime);
+    PageInfo selectAllSystemLogs(Integer pageNum, Integer pageSize, String userName,
+                                 String startTime, String endTime);
 
     /**
      * @description 删除日志
